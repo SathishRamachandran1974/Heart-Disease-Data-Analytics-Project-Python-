@@ -76,7 +76,7 @@
   - Data types (int, float, object)
   - Non-null counts (verified no missing values)
   - Key observation : Dataset is clean, well-structured, and ready for further analysis (age, sex, cholesterol, blood pressure, chest pain type, etc.).
-### 🐍 Python Code
+### 🐍 Python Code(Bedore Cleaning)
 ```python
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -90,8 +90,118 @@ print(df.head())
 
 # check structure and data types
 print(df.info())
+ ```
+<img width="591" height="474" alt="Analysis 1" src="https://github.com/user-attachments/assets/84502e34-53fe-44cd-9974-f91f7f60d0da" />
 
+## Analysis 2 – Data Cleaning    
+   - This step focuses on **cleaning the heart disease dataset** to prepare it for accurate analysis and visualization.  
+   - **Dataset Loaded**: `Heart_Cleaned_Data.csv` using **pandas**.  
+   - **Removed blank cells** using `dropna()`.  
+   - **Removed duplicate records** using `drop_duplicates()`.  
+   - **Saved cleaned data** into a new file: `Heart_Cleaned-1.xlsx`.  
+   - **Previewed cleaned dataset** using `to_string()` to verify changes.  
+   - **Key Observation**: The dataset is now free from missing values and duplicates, ensuring reliability for further analysis.  
+### 🐍 Python Code(After Cleaning)
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
+# load dataset
+df = pd.read_csv("Heart_Cleaned.csv")
 
+# removing the blankcell
+df_cleaned = df.dropna()
+
+# removing the duplicates
+df_cleaned = df.drop_duplicates()
+
+# Save to the same Excel file (overwrite)
+df_cleaned.to_excel('Heart_Cleaned-1.xlsx', index=False)
+
+# look into data
+# print(df.to_string())
+print(df_cleaned.to_string()) given this code in readme
+```
+<img width="873" height="539" alt="Analysis 2" src="https://github.com/user-attachments/assets/e85570de-828d-4b65-9417-bdf15c2ac5d0" />
+
+## Analysis-3 (Age Distribution)
+   - The histogram above visualizes the distribution of patients’ ages in the heart disease dataset. Key insights include:
+      - Most patients fall within the 40–65 years age range, indicating that middle-aged and older adults are more represented in this dataset.
+      - There are fewer patients in the younger (<30 years) and older (>70 years) age groups.
+      - The distribution shows a slight right-skew, suggesting that extreme older ages are less common.
+      - This analysis can help identify age-related patterns in heart disease prevalence and guide further statistical or predictive modeling.
+### 🐍 Python Code
+```python
+plt.hist(df['Age'], bins=20, color="salmon", edgecolor="black")
+plt.grid(True, linestyle="--", alpha=0.7)
+plt.title("Age Distribution Of Patients")
+plt.xlabel("Age")
+plt.ylabel("Peoplecount")
+plt.show()
+```
+<img width="571" height="455" alt="image" src="https://github.com/user-attachments/assets/37da8286-bbf9-49fa-95d1-1c3ca20c9376" />
+
+## Analysis-4(Gender Basis HeartDisease)
+  - Visualizes heart disease cases grouped by gender.
+  - Males have a higher number of heart disease cases compared to females.
+  - Females show more patients without heart disease.
+  - Highlights potential gender-based differences in heart disease prevalence.
+  - Useful for demographic-based risk assessment and further analysis.
+### 🐍 Python Code
+```python
+counts = pd.crosstab(df['Sex'], df['HeartDisease'])
+counts.plot(kind='bar', stacked=True, color=['lightgreen', 'salmon'], edgecolor='black')
+plt.grid(True, linestyle="--", alpha=0.7)
+plt.title("Heart Disease Distribution by Sex")
+plt.xlabel("Sex")
+plt.ylabel("Peoplecount")
+plt.show()
+```
+<img width="571" height="453" alt="image" src="https://github.com/user-attachments/assets/983bad32-5ebb-48ae-98c4-48cf52e08161" />
+
+## Analysis-5(ChestPain Type Distribution)
+ - Shows the distribution of heart disease cases across different chest pain types.
+ - Certain chest pain types have a higher proportion of heart disease cases.
+ - Patients with other chest pain types may have fewer cases, indicating lower risk.
+ - Helps identify high-risk symptoms for heart disease.
+ - Useful for symptom-based analysis and early detection insights.
+### 🐍 Python Code
+```python
+counts = pd.crosstab(df['ChestPainType'], df['HeartDisease'])
+counts.plot(kind='bar', stacked=True, color=['lightgreen','salmon'], edgecolor='black')
+plt.grid(True, linestyle="--", alpha=0.7)
+plt.title("ChestPain Type by HeartDisease")
+plt.xlabel("Chestpain Type")
+plt.ylabel("Peoplecount")
+plt.show()
+```
+<img width="571" height="469" alt="image" src="https://github.com/user-attachments/assets/4d9ac363-013c-4f98-a090-5cd5bb19f648" />
+
+## Analysis-6(Cholestral Level Distribution)
+   - Categorizes cholesterol levels into Low (<200), Normal (200–239), and High (≥240).
+   - Visualizes the number of patients in each cholesterol category.
+   - Majority of patients may fall into the Normal or High cholesterol category.
+   - High cholesterol is a major risk factor for heart disease.
+   - This chart helps understand the distribution of cholesterol-related risk in the dataset.
+### 🐍 Python Code
+```python
+def cholesterol_category(chol):
+    if chol < 200:
+        return 'Low'
+    elif 200 <= chol < 240:
+        return 'Normal'
+    else:
+        return 'High'
+
+df['CholCategory'] = df['Cholesterol'].apply(cholesterol_category)
+chol_counts = df['CholCategory'].value_counts().reindex(['Low','Normal','High'])
+plt.bar(chol_counts.index, chol_counts.values, color=['lightblue','lightgreen','salmon'],edgecolor='black')
+plt.title('Distribution of Cholesterol Levels')
+plt.xlabel('Cholesterolcategory')
+plt.ylabel('Peoplecount')
+plt.show()
+```
+<img width="571" height="455" alt="image" src="https://github.com/user-attachments/assets/185c1570-6934-42ec-8827-b5653c2937b9" />
 
 
