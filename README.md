@@ -65,7 +65,7 @@
 | 9          | 37  | M   | ASY           | 140       | 207         | 0         | Normal     | 130   | Y              | 1.5     | Flat     | 1            |
 | 10         | 48  | F   | ATA           | 120       | 284         | 0         | Normal     | 120   | N              | 0.0     | Up       | 0            |
 
-## Analysis-1
+## Analysis-1(Load & Processing)
   - Imported libraries:
   - pandas → data manipulation
   - matplotlib & seaborn → visualization
@@ -93,7 +93,7 @@ print(df.info())
  ```
 <img width="591" height="474" alt="Analysis 1" src="https://github.com/user-attachments/assets/84502e34-53fe-44cd-9974-f91f7f60d0da" />
 
-## Analysis 2 – Data Cleaning    
+## Analysis-2(Data Cleaning)    
    - This step focuses on **cleaning the heart disease dataset** to prepare it for accurate analysis and visualization.  
    - **Dataset Loaded**: `Heart_Cleaned_Data.csv` using **pandas**.  
    - **Removed blank cells** using `dropna()`.  
@@ -125,7 +125,7 @@ print(df_cleaned.to_string()) given this code in readme
 ```
 <img width="873" height="539" alt="Analysis 2" src="https://github.com/user-attachments/assets/e85570de-828d-4b65-9417-bdf15c2ac5d0" />
 
-## Analysis-3 (Age Distribution)
+## Analysis-3(Age Distribution)
    - The histogram above visualizes the distribution of patients’ ages in the heart disease dataset. Key insights include:
       - Most patients fall within the 40–65 years age range, indicating that middle-aged and older adults are more represented in this dataset.
       - There are fewer patients in the younger (<30 years) and older (>70 years) age groups.
@@ -204,4 +204,134 @@ plt.show()
 ```
 <img width="571" height="455" alt="image" src="https://github.com/user-attachments/assets/185c1570-6934-42ec-8827-b5653c2937b9" />
 
+## Analysis-7(Insights)
+
+
+## Analysis-8(Resting _BP Distribution)
+   - Categorizes resting blood pressure into Low (<90), Normal (90–120), and High (>120).
+   - Visualizes the proportion of patients in each blood pressure category using a donut-style pie chart.
+   - Most patients may fall into the Normal or High blood pressure range.
+   - High resting blood pressure is a key risk factor for heart disease.
+   - Helps identify patient groups at risk based on blood pressure levels.
+### 🐍 Python Code
+```python
+def bp_category(bp):
+    if bp < 90:
+        return 'Low'
+    elif 90 <= bp <= 120:
+        return 'Normal'
+    else:
+        return 'High'
+
+df['RestBP_Category'] = df['RestingBP'].apply(bp_category)
+bp_counts = df['RestBP_Category'].value_counts().reindex(['Low','Normal','High'])
+colors = ['lightblue', 'lightgreen', 'salmon']
+plt.pie(bp_counts, labels=bp_counts.index, startangle=90, colors=colors, wedgeprops={'edgecolor':'black', 'width':0.5})
+plt.title('Resting Blood Pressure Distribution')
+plt.show()
+```
+<img width="392" height="411" alt="image" src="https://github.com/user-attachments/assets/63e49d56-3f74-4fef-beae-e5e875311deb" />
+
+## Analysis-9(Insight Summary Table)
+   - Categorizes patients by Low, Normal, and High resting blood pressure.
+   - Displays the number of patients with and without heart disease in each category.
+   - Calculates the percentage of heart disease cases within each blood pressure group.
+   - Helps identify which blood pressure category has the highest prevalence of heart disease.
+   - Useful for risk assessment and targeted health interventions based on blood pressure.
+### 🐍 Python Code
+```python
+def bp_category(bp):
+    if bp < 90:
+        return 'Low'
+    elif 90 <= bp <= 120:
+        return 'Normal'
+    else:
+        return 'High'
+
+df['RestBP_Category'] = df['RestingBP'].apply(bp_category)
+bp_summary = pd.crosstab(df['RestBP_Category'], df['HeartDisease'])
+bp_summary['Total'] = bp_summary.sum(axis=1)
+bp_summary['HD_Percent'] = (bp_summary[1] / bp_summary['Total']) * 100
+bp_summary['HD_Percent'] = bp_summary['HD_Percent'].round(2)
+print(bp_summary)
+```
+<img width="302" height="78" alt="Analysis 9" src="https://github.com/user-attachments/assets/8399455c-666c-4868-9869-e37def3e866f" />
+
+## Analysis-10(FBS Distribution)
+  - Categorizes patients based on Fasting Blood Sugar (FBS):
+        - 0 → Normal
+        - 1 → High
+  - Visualizes the number of patients in each FBS category using a bar chart.
+  - Most patients may have normal FBS, while a smaller portion has high FBS.
+  - High FBS is a risk factor for heart disease and diabetes.
+  - Useful for identifying patient groups at risk due to elevated blood sugar levels.
+### 🐍 Python Code
+```python
+fbs_counts = df['FastingBS'].value_counts().rename({0:'Normal', 1:'High'})
+plt.bar(fbs_counts.index, fbs_counts.values, color=['lightgreen','salmon'], edgecolor='black')
+plt.title('Fasting Bloodsugar Distribution')
+plt.xlabel('Fasting Bloodsugar')
+plt.ylabel('Peoplecount')
+plt.show()
+```
+<img width="571" height="455" alt="image" src="https://github.com/user-attachments/assets/39f54f1d-34b6-477d-a028-daa56ae1c482" />
+
+## Analysis-11(Resting ECG Type Distribution)
+   - Shows the distribution of heart disease cases across different resting ECG types.
+   - Certain ECG types have a higher proportion of heart disease cases.
+   - Helps identify patients with abnormal ECG patterns who may be at greater risk.
+   - Useful for symptom-based risk assessment and medical analysis.
+### 🐍 Python Code
+```python
+counts = pd.crosstab(df['RestingECG'], df['HeartDisease'])
+counts.plot(kind='bar', stacked=True, color=['lightgreen','salmon'], edgecolor='black')
+plt.grid(True, linestyle="--", alpha=0.7)
+plt.title("Resting-ECG Types by HeartDisease Status")
+plt.xlabel("Resting-ECG Type")
+plt.ylabel("Peoplecount")
+plt.show()
+```
+<img width="571" height="491" alt="image" src="https://github.com/user-attachments/assets/c1126b0a-bc9e-46ca-9185-95f980be8565" />
+
+## Analysis-12(Max HeartRate Distribution)
+   - Categorizes maximum heart rate (MaxHR) into Low (<120), Normal (120–160), and High (>160).
+   - Visualizes the proportion of patients in each MaxHR category using a donut-style pie chart.
+   - Most patients may have Normal MaxHR, while fewer patients fall into Low or High categories.
+   - Abnormal MaxHR levels can indicate heart disease risk or cardiovascular issues.
+   - Useful for assessing patient risk based on exercise or stress response.
+### 🐍 Python Code
+```python
+def max_hr_category(hr):
+    if hr < 120:
+        return 'Low'
+    elif 120 <= hr <= 160:
+        return 'Normal'
+    else:
+        return 'High'
+
+df['MaxHR_Category'] = df['MaxHR'].apply(max_hr_category)
+hr_counts = df['MaxHR_Category'].value_counts().reindex(['Low','Normal','High'])
+colors = ['lightblue', 'lightgreen', 'salmon']
+plt.pie(hr_counts, labels=hr_counts.index, startangle=90,colors=colors, wedgeprops={'edgecolor':'black', 'width':0.4})
+plt.title('Max Heart Rate Distribution')
+plt.show()
+```
+<img width="389" height="411" alt="image" src="https://github.com/user-attachments/assets/7aa757bc-a873-4dac-bde8-e8b7a5f8e480" />
+
+## Analysis -13(Ex-Agina Distribution)
+  - Visualizes the proportion of patients with and without exercise-induced angina.
+         - N → No angina
+         - Y → Yes, angina 
+  - Most patients do not experience exercise-induced angina, while a smaller portion do.
+  - Presence of angina during exercise is an important risk factor for heart disease.
+  - Helps identify high-risk patients for further cardiac evaluation.
+### 🐍 Python Code
+```python
+angina_counts = df['ExerciseAngina'].value_counts().reindex(['N','Y'])
+colors = ['lightgreen','salmon']
+plt.pie(angina_counts, labels=angina_counts.index.map({'N':'No','Y':'Yes'}), startangle=90, colors=colors, wedgeprops={'edgecolor':'black','width':0.4})
+plt.title('Exercise-Induced Angina Distribution')
+plt.show()
+```
+<img width="389" height="411" alt="image" src="https://github.com/user-attachments/assets/dfa98c51-c45d-4576-a009-d1c25723f5c6" />
 
