@@ -335,3 +335,68 @@ plt.show()
 ```
 <img width="389" height="411" alt="image" src="https://github.com/user-attachments/assets/dfa98c51-c45d-4576-a009-d1c25723f5c6" />
 
+## Analysis-14(Summaruy Table BY ChestPain/HeartDisease)
+   - Creates a table showing the number of patients with and without heart disease for each chest pain type.
+   - dds a total count of patients in each chest pain category.
+   - Helps identify which chest pain types are more strongly associated with heart disease.
+   - Useful for symptom-based risk assessment and guiding further medical analysis.
+   - Makes it easy to compare prevalence of heart disease across different chest pain types.
+### 🐍 Python Code
+```python
+counts = pd.crosstab(df['ChestPainType'], df['HeartDisease'], margins=False)
+counts['All'] = counts.sum(axis=1)
+counts = counts.reset_index()
+counts.columns = ['CP/HD', '0', '1', 'All']
+print("Chest Pain Type by Heart Disease\n")
+print(counts.to_string(index=False))
+```
+<img width="219" height="98" alt="Analysis 14" src="https://github.com/user-attachments/assets/afb0a089-14c8-4f1a-8d5b-86bd98f5fc53" /> 
+
+## 📂 Dataset Information  
+**Dataset Used:** Heart Disease Clinical Dataset (918 patients)  
+
+| Column          | Description                                      |
+|-----------------|--------------------------------------------------|
+| Patient ID      | Unique identifier for each patient               |
+| Age             | Patient age in years                             |
+| Sex             | Male / Female                                    |
+| ChestPainType   | Types of chest pain (ASY, ATA, NAP, TA)          |
+| RestingBP       | Resting blood pressure (mmHg)                    |
+| Cholesterol     | Serum cholesterol level (mg/dL)                  |
+| FastingBS       | Fasting blood sugar (0 = normal, 1 = high)       |
+| RestingECG      | Resting ECG results                              |
+| MaxHR           | Maximum heart rate achieved                      |
+| ExerciseAngina  | Angina induced by exercise (Yes/No)              |
+| Oldpeak         | ST depression induced by exercise                |
+| ST_Slope        | Slope of ST segment                              |
+| HeartDisease    | Target variable (1 = disease, 0 = no)            |
+
+## Tools & Techniques
+   - Python (Pandas, Matplotlib, Seaborn) → Data cleaning, transformation, visualization
+   - Exploratory Data Analysis (EDA) → Feature-wise distribution and risk assessment
+   - Categorical Encoding → Grouping cholesterol, BP, HR into medical categories
+   - Statistical Summaries → Prevalence and ratios by patient characteristics
+
+## Storytelling – The Insights Behind the Project
+   - More than half of patients with high cholesterol or blood pressure were diagnosed with heart disease.
+   - Asymptomatic chest pain patients had the highest disease prevalence, signaling hidden risks.
+   - Exercise-induced angina was a strong predictor of heart disease risk.
+   - The dataset highlights how common risk factors (cholesterol, BP, angina) align with medical knowledge.
+   - Preventive screening for high-risk groups (males, high cholesterol, high BP) could significantly reduce cardiac risk.
+
+## Insights
+   - Elevated cholesterol and blood pressure are the strongest indicators of heart disease in this dataset.
+   - Demographics show middle-aged men at higher risk.
+   - Exercise stress indicators (angina, ST depression) are key diagnostic factors.
+   - A combined analysis of multiple risk factors is essential for reliable screening.
+
+## Conclusion
+   - This Python-based heart disease analysis project demonstrates how healthcare data can be transformed into actionable
+     insights through EDA and visualization. 
+   - It enables medical teams to :
+            - Identify high-risk patient groups.
+            - Target preventive care strategies.
+            - Use data-driven evidence to guide clinical decision-making.
+            - Build a foundation for predictive modeling in healthcare.
+   - By turning raw patient data into a structured risk analysis, the project shows the power of Python in medical data science
+     and its potential in supporting healthcare strategies.
