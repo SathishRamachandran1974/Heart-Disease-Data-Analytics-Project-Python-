@@ -50,4 +50,48 @@
    - Chest pain summary table
      
 ## Sample DataSet
+   - Sample Data Preview
+   
+| Patient ID | Age | Sex | ChestPainType | RestingBP | Cholesterol | FastingBS | RestingECG | MaxHR | ExerciseAngina | Oldpeak | ST_Slope | HeartDisease |
+|------------|-----|-----|---------------|-----------|-------------|-----------|------------|-------|----------------|---------|----------|--------------|
+| 1          | 40  | M   | ATA           | 140       | 289         | 0         | Normal     | 172   | N              | 0.0     | Up       | 0            |
+| 2          | 49  | F   | NAP           | 160       | 180         | 0         | Normal     | 156   | N              | 1.0     | Flat     | 1            |
+| 3          | 37  | M   | ATA           | 130       | 283         | 0         | ST         | 98    | N              | 0.0     | Up       | 0            |
+| 4          | 48  | F   | ASY           | 138       | 214         | 0         | Normal     | 108   | Y              | 1.5     | Flat     | 1            |
+| 5          | 54  | M   | NAP           | 150       | 195         | 0         | Normal     | 122   | N              | 0.0     | Up       | 0            |
+| 6          | 39  | M   | NAP           | 120       | 339         | 0         | Normal     | 170   | N              | 0.0     | Up       | 0            |
+| 7          | 45  | F   | ATA           | 130       | 237         | 0         | Normal     | 170   | N              | 0.0     | Up       | 0            |
+| 8          | 54  | M   | ATA           | 110       | 208         | 0         | Normal     | 142   | N              | 0.0     | Up       | 0            |
+| 9          | 37  | M   | ASY           | 140       | 207         | 0         | Normal     | 130   | Y              | 1.5     | Flat     | 1            |
+| 10         | 48  | F   | ATA           | 120       | 284         | 0         | Normal     | 120   | N              | 0.0     | Up       | 0            |
+
+## Analysis-1
+  - Imported libraries:
+  - pandas → data manipulation
+  - matplotlib & seaborn → visualization
+  - Loaded dataset: Heart_Cleaned_Data.csv into a Pandas DataFrame.
+  - Previewed the dataset using df.head() to display the first 5 rows.
+  - Checked structure & metadata with df.info(), including:
+  - Number of rows & columns (918 × 13)
+  - Data types (int, float, object)
+  - Non-null counts (verified no missing values)
+  - Key observation : Dataset is clean, well-structured, and ready for further analysis (age, sex, cholesterol, blood pressure, chest pain type, etc.).
+### 🐍 Python Code
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# load dataset
+df = pd.read_csv("Heart_Cleaned_Data.csv")
+
+# preview first 5 rows
+print(df.head())
+
+# check structure and data types
+print(df.info())
+
+
+
+
 
